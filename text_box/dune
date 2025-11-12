@@ -1,0 +1,8 @@
+(executables
+ (modes byte exe)
+ (names main)
+ (public_names text_box_example)
+ (libraries async bonsai_term bonsai_term_components.catpuccin
+   bonsai_term_components.textbox core_unix.command_unix core)
+ (preprocess
+  (pps ppx_jane bonsai.ppx_bonsai)))

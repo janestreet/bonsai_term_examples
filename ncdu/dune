@@ -1,0 +1,8 @@
+(executables
+ (modes byte exe)
+ (names main)
+ (public_names ncdu_example)
+ (libraries async bonsai bonsai_term bonsai_term_components.catpuccin
+   bonsai_term_components.ncdu core_unix.command_unix core)
+ (preprocess
+  (pps ppx_jane bonsai.ppx_bonsai)))

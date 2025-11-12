@@ -1,0 +1,6 @@
+(library
+ (name pomodoro_timer_test)
+ (public_name bonsai_term_examples.pomodoro_timer_test)
+ (libraries bonsai_term_test.bonsai_term_test bonsai_test core pomodoro_timer)
+ (preprocess
+  (pps ppx_jane bonsai.ppx_bonsai ppx_expect)))

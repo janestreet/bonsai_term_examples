@@ -1,0 +1,8 @@
+(executables
+ (modes byte exe)
+ (names bar_chart_process_info)
+ (public_names bar_chart_process_info)
+ (libraries async bonsai bonsai_term bonsai_term_components.bar_chart
+   core_unix.command_unix core)
+ (preprocess
+  (pps ppx_jane bonsai.ppx_bonsai)))

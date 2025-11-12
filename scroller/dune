@@ -1,0 +1,9 @@
+(executables
+ (modes byte exe)
+ (names main)
+ (public_names scroller_example)
+ (libraries async bonsai_term bonsai_term_components.scroller
+   core_unix.command_unix core)
+ (preprocessor_deps ../../tui/scroller/src/bonsai_tui_scroller.mli)
+ (preprocess
+  (pps ppx_jane bonsai.ppx_bonsai ppx_embed_file)))

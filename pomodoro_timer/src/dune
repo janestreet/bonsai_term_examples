@@ -1,0 +1,6 @@
+(library
+ (name pomodoro_timer)
+ (public_name bonsai_term_examples.pomodoro_timer)
+ (preprocess
+  (pps bonsai.ppx_bonsai ppx_jane))
+ (libraries async bonsai bonsai_term bonsai_term_components.catpuccin core))
