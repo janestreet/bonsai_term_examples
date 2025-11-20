@@ -30,7 +30,7 @@ let typeset_text ~max_width =
 ;;
 
 let animation_cycle graph =
-  let%arr now = Bonsai.Clock.now graph in
+  let%arr now = Bonsai.Clock.Expert.now graph in
   Int.of_float
     ((Float.sin (Time_ns.Span.to_sec_approx (Time_ns.diff now Time_ns.epoch)) +. 1.0)
      /. 2.0

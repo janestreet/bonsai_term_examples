@@ -33,9 +33,8 @@ end = struct
 
   (* We assume that [content] has been tagged with the [focus] tag. *)
   let create ~focus ~height content (local_ graph) =
-    (* Track the current offset so that when you move focus down and then 
-       go back up, the scrollbar remains locked until focus moves out of 
-       bounds in the "up" direction. *)
+    (* Track the current offset so that when you move focus down and then go back up, the
+       scrollbar remains locked until focus moves out of bounds in the "up" direction. *)
     let scroll_offset, set_scroll_offset = Bonsai.state 0 graph in
     let position_of_tag =
       (* try to find the position of the tag in the overall list *)
@@ -46,9 +45,9 @@ end = struct
          location)
     in
     let adjusted_scroll_offset =
-      (* Compute the adjusted scroll offset so that the scroller moves 
-         on the same frame that the tag leaves the scroll region.  If we 
-         _just_ relied on the [on_change] then it would be delayed by a frame. *)
+      (* Compute the adjusted scroll offset so that the scroller moves on the same frame
+         that the tag leaves the scroll region. If we _just_ relied on the [on_change]
+         then it would be delayed by a frame. *)
       let%arr scroll_offset and position_of_tag and height in
       match position_of_tag with
       | None -> scroll_offset

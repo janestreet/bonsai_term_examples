@@ -48,6 +48,12 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
         let%arr send_actions in
         Bonsai_tui_text_editor.default_keybindings_handler send_actions
       in
+      let handler =
+        Bonsai_tui_text_editor.Buffer_and_apply_paste_events_in_bulk.f
+          ~send_actions
+          ~handler
+          graph
+      in
       let%arr handler in
       ~handler, ~mode:None
     | `Vim ->
@@ -57,11 +63,23 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
           send_actions
           graph
       in
+      let handler =
+        Bonsai_tui_text_editor.Buffer_and_apply_paste_events_in_bulk.f
+          ~send_actions
+          ~handler
+          graph
+      in
       let%arr handler and mode in
       ~handler, ~mode:(Some mode)
     | `Emacs ->
       let handler =
         Bonsai_tui_text_editor.Emacs.emacs_keybindings_handler send_actions graph
+      in
+      let handler =
+        Bonsai_tui_text_editor.Buffer_and_apply_paste_events_in_bulk.f
+          ~send_actions
+          ~handler
+          graph
       in
       let%arr handler in
       ~handler, ~mode:None

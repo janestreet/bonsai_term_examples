@@ -438,8 +438,8 @@ let%expect_test "Timer advances to next phase when it reaches zero" =
   press_space handle;
   (* Start the timer *)
   Handle.recompute_view handle;
-  (* Advance clock by 25 minutes (1499 seconds) to complete the work phase 
-     Note: 1499 because the timer already ticked once when we started it *)
+  (* Advance clock by 25 minutes (1499 seconds) to complete the work phase Note: 1499
+     because the timer already ticked once when we started it *)
   Handle.advance_clock_by handle (Time_ns.Span.of_sec 1499.0);
   Handle.show handle;
   [%expect
