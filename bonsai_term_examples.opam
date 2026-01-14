@@ -19,6 +19,7 @@ depends: [
   "bonsai_test"
   "core"
   "core_unix"
+  "ppx_embed_file"
   "ppx_expect"
   "ppx_jane"
   "dune"                   {>= "3.17.0"}

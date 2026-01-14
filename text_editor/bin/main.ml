@@ -1,4 +1,5 @@
 open! Core
+open! Bonsai_term
 
 let command =
   let open Async in
@@ -8,15 +9,16 @@ let command =
   fun () ->
     let open Deferred.Or_error.Let_syntax in
     let%bind () =
-      Bonsai_term.start (fun ~dimensions (local_ graph) ->
+      Bonsai_term.start (fun ~dimensions (graph @ local) ->
         let ( ~view
             , ~handler
             , ~toggle_keybindings_mode:_
             , ~text:_
             , ~set_text:_
+            , ~mode:_
             , ~get_cursor_position:_ )
           =
-          Bonsai_tui_text_editor_example.app ~dimensions graph
+          Bonsai_term_text_editor_example.app ~dimensions graph
         in
         ~view, ~handler)
     in

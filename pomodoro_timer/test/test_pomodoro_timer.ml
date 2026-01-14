@@ -1,7 +1,7 @@
 open! Core
 open Bonsai_test
 
-let app = Pomodoro_timer.app
+let app = Bonsai_term_pomodoro_timer_example.app
 
 let press_key handle key =
   Bonsai_term_test.send_event handle (Key_press { key = ASCII key; mods = [] })
