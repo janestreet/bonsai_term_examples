@@ -1,6 +1,6 @@
 open! Core
 open! Bonsai_term
-open! Bonsai_tui_bar_chart
+open! Bonsai_term_bar_chart
 open! Bonsai.Let_syntax
 
 (* This is a tiny example that shows CPU utilization of different processes on your box
@@ -72,20 +72,20 @@ let make_view ~(dimensions : Dimensions.t Bonsai.t) (local_ graph) =
   let bars =
     let%arr process_info in
     List.map process_info ~f:(fun { name; cpu } ->
-      { Bonsai_tui_bar_chart.Bar.label = Some name
+      { Bonsai_term_bar_chart.Bar.label = Some name
       ; value = Percent.to_percentage cpu
       ; color = None
       })
   in
   let y_labels_config =
-    Bonsai_tui_bar_chart.Y_labels_config.Shown_custom
+    Bonsai_term_bar_chart.Y_labels_config.Shown_custom
       { layout = Every_x_units 25.
       ; make_label_string = (fun x -> Float.to_string_hum ~decimals:0 x ^ "%")
       }
   in
   let%arr { height; width } = dimensions
   and bars in
-  Bonsai_tui_bar_chart.view
+  Bonsai_term_bar_chart.view
     ~title:(Some "CPU % Usage by Process")
     ~y_labels_config
     ~bar_height_config:(Linear { min_value = Constant 0.; max_value = Constant 200. })

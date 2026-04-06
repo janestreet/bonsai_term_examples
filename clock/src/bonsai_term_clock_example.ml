@@ -7,7 +7,12 @@ let ( >> ) a b = Fn.compose a b
 let render_date (date : Date.t) =
   let t f =
     View.text
-      ~attrs:[ Attr.fg (Bonsai_tui_catppuccin.color ~flavor:Mocha Blue) ]
+      ~attrs:
+        [ Attr.fg
+            (Bonsai_term_catppuccin.color
+               ~flavor:Bonsai_term_catppuccin.Mocha.flavor
+               Blue)
+        ]
       (Int.to_string (f date))
   in
   let year = t Date.year in
@@ -18,7 +23,11 @@ let render_date (date : Date.t) =
 
 let render_time_of_day (time_of_day : Time_ns.Ofday.t) =
   View.text
-    ~attrs:[ Attr.bold; Attr.fg (Bonsai_tui_catppuccin.color ~flavor:Mocha Green) ]
+    ~attrs:
+      [ Attr.bold
+      ; Attr.fg
+          (Bonsai_term_catppuccin.color ~flavor:Bonsai_term_catppuccin.Mocha.flavor Green)
+      ]
     (Time_ns.Ofday.to_sec_string time_of_day)
 ;;
 

@@ -2,7 +2,7 @@ open! Core
 open! Async
 open! Bonsai_term
 open Bonsai.Let_syntax
-module Catppuccin = Bonsai_tui_catppuccin
+module Catppuccin = Bonsai_term_catppuccin
 
 let all_colors (local_ graph) =
   Bonsai.map (Catppuccin.flavor graph) ~f:(fun flavor ->
@@ -11,7 +11,7 @@ let all_colors (local_ graph) =
     |> Catppuccin.Map.of_alist_exn)
 ;;
 
-let all_flavors = Core.Array.of_list Catppuccin.Flavor.all
+let all_flavors = Core.Array.of_list Catppuccin.Flavor_name.all
 
 let app ~dimensions (local_ graph) =
   let index, cycle =
@@ -32,9 +32,13 @@ let app ~dimensions (local_ graph) =
       | Key_press { key = Tab; mods = [ Shift ] } -> cycle `Left
       | _ -> Effect.Ignore
   in
-  let flavor =
+  let flavor_name =
     let%arr index in
     all_flavors.(index % Array.length all_flavors)
+  in
+  let flavor =
+    let%arr flavor_name in
+    Catppuccin.Flavor_name.to_flavor flavor_name
   in
   let biggest_color_length =
     List.max_elt
@@ -47,22 +51,28 @@ let app ~dimensions (local_ graph) =
     (Catppuccin.set_flavor_within flavor
      @@ fun (local_ graph) ->
      let all_colors = all_colors graph in
-     let%arr all_colors and flavor and dimensions in
+     let%arr all_colors and flavor_name and flavor and dimensions in
      let title =
-       Catppuccin.Flavor.all
+       Catppuccin.Flavor_name.all
        |> List.map ~f:(fun f ->
          let attrs =
            [ Attr.bg
                (Catppuccin.color
                   ~flavor
-                  (if Catppuccin.Flavor.equal flavor f then Catppuccin.Mauve else Base))
+                  (if Catppuccin.Flavor_name.equal flavor_name f
+                   then Catppuccin.Mauve
+                   else Base))
            ; Attr.fg
                (Catppuccin.color
                   ~flavor
-                  (if Catppuccin.Flavor.equal flavor f then Catppuccin.Base else Text))
+                  (if Catppuccin.Flavor_name.equal flavor_name f
+                   then Catppuccin.Base
+                   else Text))
            ]
          in
-         View.text ~attrs (" " ^ Sexp.to_string [%sexp (f : Catppuccin.Flavor.t)] ^ " "))
+         View.text
+           ~attrs
+           (" " ^ Sexp.to_string [%sexp (f : Catppuccin.Flavor_name.t)] ^ " "))
        |> View.hcat
      in
      let colors =

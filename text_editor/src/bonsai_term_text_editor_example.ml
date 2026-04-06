@@ -3,13 +3,13 @@ open Bonsai_term
 open Bonsai.Let_syntax
 
 let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
-  let flavor = Bonsai_tui_catppuccin.flavor graph in
+  let flavor = Bonsai_term_catppuccin.flavor graph in
   let%tydi { view; send_actions; text; cursor; set_text; rope = _; get_cursor_position } =
     let text_attrs =
       let%arr flavor in
       let text_attrs =
-        [ Attr.bg (Bonsai_tui_catppuccin.color ~flavor Crust)
-        ; Attr.fg (Bonsai_tui_catppuccin.color ~flavor Text)
+        [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Crust)
+        ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Text)
         ]
       in
       text_attrs
@@ -22,7 +22,7 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let%arr { Dimensions.height; _ } = dimensions in
       height - 1
     in
-    Bonsai_tui_text_editor.component ~text_attrs ~width ~max_height graph
+    Bonsai_term_text_editor.component ~text_attrs ~width ~max_height graph
   in
   let keybindings, toggle =
     Bonsai.state_machine
@@ -39,10 +39,10 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
     | `Standard ->
       let handler =
         let%arr send_actions in
-        Bonsai_tui_text_editor.default_keybindings_handler send_actions
+        Bonsai_term_text_editor.default_keybindings_handler send_actions
       in
       let handler =
-        Bonsai_tui_text_editor.Buffer_and_apply_paste_events_in_bulk.f
+        Bonsai_term_text_editor.Buffer_and_apply_paste_events_in_bulk.f
           ~send_actions
           ~handler
           graph
@@ -51,13 +51,13 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       ~handler, ~mode:None
     | `Vim ->
       let%tydi { mode; handler } =
-        Bonsai_tui_text_editor.Vim.vim_keybindings_handler
+        Bonsai_term_text_editor.Vim.vim_keybindings_handler
           ~default_mode:Normal
           send_actions
           graph
       in
       let handler =
-        Bonsai_tui_text_editor.Buffer_and_apply_paste_events_in_bulk.f
+        Bonsai_term_text_editor.Buffer_and_apply_paste_events_in_bulk.f
           ~send_actions
           ~handler
           graph
@@ -66,10 +66,10 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       ~handler, ~mode:(Some mode)
     | `Emacs ->
       let handler =
-        Bonsai_tui_text_editor.Emacs.emacs_keybindings_handler send_actions graph
+        Bonsai_term_text_editor.Emacs.emacs_keybindings_handler send_actions graph
       in
       let handler =
-        Bonsai_tui_text_editor.Buffer_and_apply_paste_events_in_bulk.f
+        Bonsai_term_text_editor.Buffer_and_apply_paste_events_in_bulk.f
           ~send_actions
           ~handler
           graph
@@ -82,16 +82,16 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let%arr mode and flavor in
       let text, color =
         match mode with
-        | Some Normal -> " NORMAL ", Bonsai_tui_catppuccin.Blue
-        | Some Insert -> " INSERT ", Bonsai_tui_catppuccin.Green
-        | None -> "", Bonsai_tui_catppuccin.Mauve
+        | Some Normal -> " NORMAL ", Bonsai_term_catppuccin.Blue
+        | Some Insert -> " INSERT ", Bonsai_term_catppuccin.Green
+        | None -> "", Bonsai_term_catppuccin.Mauve
       in
       let view =
         View.text
           ~attrs:
             [ Attr.bold
-            ; Attr.fg (Bonsai_tui_catppuccin.color ~flavor Crust)
-            ; Attr.bg (Bonsai_tui_catppuccin.color ~flavor color)
+            ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
+            ; Attr.bg (Bonsai_term_catppuccin.color ~flavor color)
             ]
           text
       in
@@ -101,7 +101,7 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let%arr mode
       and { visual_line; visual_column; logical_column; logical_line; position = _ } =
         cursor
-      and add_click_handler = Bonsai_tui_click_handler.add_click_handler graph
+      and add_click_handler = Bonsai_term_click_handler.add_click_handler graph
       and { width; height = _ } = dimensions
       and color
       and toggle
@@ -110,16 +110,16 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let visual_cursor =
         View.text
           ~attrs:
-            [ Attr.fg (Bonsai_tui_catppuccin.color ~flavor color)
-            ; Attr.bg (Bonsai_tui_catppuccin.color ~flavor Surface0)
+            [ Attr.fg (Bonsai_term_catppuccin.color ~flavor color)
+            ; Attr.bg (Bonsai_term_catppuccin.color ~flavor Surface0)
             ]
           [%string " %{visual_line#Int}:%{visual_column#Int} "]
       in
       let cursor =
         View.text
           ~attrs:
-            [ Attr.fg (Bonsai_tui_catppuccin.color ~flavor Crust)
-            ; Attr.bg (Bonsai_tui_catppuccin.color ~flavor color)
+            [ Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
+            ; Attr.bg (Bonsai_term_catppuccin.color ~flavor color)
             ]
           [%string " %{logical_line#Int}:%{logical_column#Int} "]
       in
@@ -136,14 +136,14 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
             [ View.text
                 ~attrs:
                   [ Attr.bold
-                  ; Attr.bg (Bonsai_tui_catppuccin.color ~flavor Surface0)
-                  ; Attr.fg (Bonsai_tui_catppuccin.color ~flavor Yellow)
+                  ; Attr.bg (Bonsai_term_catppuccin.color ~flavor Surface0)
+                  ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Yellow)
                   ]
                 name
             ; View.text
                 ~attrs:
-                  [ Attr.bg (Bonsai_tui_catppuccin.color ~flavor Base)
-                  ; Attr.fg (Bonsai_tui_catppuccin.color ~flavor Overlay2)
+                  [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Base)
+                  ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Overlay2)
                   ]
                 " click to toggle "
             ]
@@ -154,7 +154,7 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let middle_padding = Int.max 0 (width - View.width left - View.width right) in
       let middle =
         View.rectangle
-          ~attrs:[ Attr.bg (Bonsai_tui_catppuccin.color ~flavor Mantle) ]
+          ~attrs:[ Attr.bg (Bonsai_term_catppuccin.color ~flavor Mantle) ]
           ~width:middle_padding
           ~height:1
           ()
@@ -170,7 +170,7 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
     and flavor in
     let backdrop =
       View.rectangle
-        ~attrs:[ Attr.bg (Bonsai_tui_catppuccin.color ~flavor Crust) ]
+        ~attrs:[ Attr.bg (Bonsai_term_catppuccin.color ~flavor Crust) ]
         ~width
         ~height
         ()
@@ -190,7 +190,7 @@ let register_cursor ~view ~mode ~get_cursor_position (graph @ local) =
     let%arr view and set_cursor and mode and get_cursor_position in
     let cursor_kind =
       match mode with
-      | Some Bonsai_tui_text_editor.Vim.Mode.Normal -> Cursor.Kind.Block
+      | Some Bonsai_term_text_editor.Vim.Mode.Normal -> Cursor.Kind.Block
       | Some Insert -> Bar_blinking
       | None -> Bar_blinking
     in
@@ -219,6 +219,16 @@ let command =
            app ~dimensions graph
          in
          register_cursor ~view ~mode ~get_cursor_position graph;
-         let handler = Bonsai_tui_click_handler.handler ~view ~handler graph in
+         (* NOTE: The click handler doesn't use Captured_or_ignored yet, so we wrap the
+            handler to drop the result. *)
+         let handler_for_click =
+           let%arr.Bonsai handler in
+           fun event ->
+             let%bind.Effect (_ : Captured_or_ignored.t) = handler event in
+             Effect.return ()
+         in
+         let handler =
+           Bonsai_term_click_handler.handler ~view ~handler:handler_for_click graph
+         in
          ~view, ~handler))
 ;;

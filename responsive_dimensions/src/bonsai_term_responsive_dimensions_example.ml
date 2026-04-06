@@ -6,7 +6,13 @@ let app ~dimensions (local_ _graph) =
   let view =
     let%arr { Dimensions.width; height } = dimensions in
     let number_attr =
-      Attr.many [ Attr.fg (Bonsai_tui_catppuccin.color ~flavor:Mocha Blue); Attr.bold ]
+      Attr.many
+        [ Attr.fg
+            (Bonsai_term_catppuccin.color
+               ~flavor:Bonsai_term_catppuccin.Mocha.flavor
+               Blue)
+        ; Attr.bold
+        ]
     in
     let number n = View.text ~attrs:[ number_attr ] [%string "%{n#Int}"] in
     let image =

@@ -114,15 +114,15 @@ let format_time seconds =
 ;;
 
 let render_timer_display model (local_ graph) =
-  let%arr flavor = Bonsai_tui_catppuccin.flavor graph
+  let%arr flavor = Bonsai_term_catppuccin.flavor graph
   and model in
-  let text_color = Bonsai_tui_catppuccin.color ~flavor Text in
-  let bg_color = Bonsai_tui_catppuccin.color ~flavor Crust in
+  let text_color = Bonsai_term_catppuccin.color ~flavor Text in
+  let bg_color = Bonsai_term_catppuccin.color ~flavor Crust in
   let accent_color =
     match model.Model.phase with
-    | Work -> Bonsai_tui_catppuccin.color ~flavor Red
-    | Short_break -> Bonsai_tui_catppuccin.color ~flavor Green
-    | Long_break -> Bonsai_tui_catppuccin.color ~flavor Blue
+    | Work -> Bonsai_term_catppuccin.color ~flavor Red
+    | Short_break -> Bonsai_term_catppuccin.color ~flavor Green
+    | Long_break -> Bonsai_term_catppuccin.color ~flavor Blue
   in
   let phase_text =
     View.text
@@ -159,10 +159,10 @@ let render_timer_display model (local_ graph) =
 ;;
 
 let render_instructions (local_ graph) =
-  let%arr flavor = Bonsai_tui_catppuccin.flavor graph in
-  let text_color = Bonsai_tui_catppuccin.color ~flavor Text in
-  let subtext_color = Bonsai_tui_catppuccin.color ~flavor Subtext0 in
-  let bg_color = Bonsai_tui_catppuccin.color ~flavor Crust in
+  let%arr flavor = Bonsai_term_catppuccin.flavor graph in
+  let text_color = Bonsai_term_catppuccin.color ~flavor Text in
+  let subtext_color = Bonsai_term_catppuccin.color ~flavor Subtext0 in
+  let bg_color = Bonsai_term_catppuccin.color ~flavor Crust in
   let instructions =
     [ "SPACE", "Start/Pause"; "R", "Reset"; "N", "Next Phase"; "Ctrl+C", "Quit" ]
   in
@@ -211,8 +211,8 @@ let timer_ticker ~inject (local_ graph) =
 
 let backdrop ~dimensions (local_ graph) =
   let%arr { Dimensions.width; height } = dimensions
-  and flavor = Bonsai_tui_catppuccin.flavor graph in
-  let bg_color = Bonsai_tui_catppuccin.color ~flavor Crust in
+  and flavor = Bonsai_term_catppuccin.flavor graph in
+  let bg_color = Bonsai_term_catppuccin.color ~flavor Crust in
   View.rectangle ~attrs:[ Attr.bg bg_color ] ~fill:' ' ~width ~height ()
 ;;
 

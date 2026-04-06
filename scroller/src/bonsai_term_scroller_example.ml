@@ -5,16 +5,16 @@ open Bonsai.Let_syntax
 
 let app ~dimensions (local_ graph) =
   let mli =
-    [%embed_file_as_string "../../../bonsai_term/scroller/src/bonsai_tui_scroller.mli"]
+    [%embed_file_as_string "../../../bonsai_term/scroller/src/bonsai_term_scroller.mli"]
   in
   let text =
     {%string|
-(** This is a demo of [bonsai_tui_scroller], a library that allows you to create a
+(** This is a demo of [bonsai_term_scroller], a library that allows you to create a
     "scrollable" region.
 
     You can scroll around this demo using less keybindings.
 
-    Here is the MLI for [bonsai_tui_scroller.mli]:
+    Here is the MLI for [bonsai_term_scroller.mli]:
 *)
 
 %{mli}|}
@@ -31,14 +31,20 @@ let app ~dimensions (local_ graph) =
           in
           View.text line))
   in
-  let%sub ~view, ~less_keybindings_handler, .. =
-    Bonsai_tui_scroller.component ~dimensions view graph
+  let%sub { view; less_keybindings_handler; _ } =
+    Bonsai_term_scroller.component ~dimensions view graph
   in
-  ~view, ~handler:less_keybindings_handler
+  let handler =
+    let%arr less_keybindings_handler in
+    fun (event : Event.t) ->
+      let%bind.Effect _ : Captured_or_ignored.t = less_keybindings_handler event in
+      Effect.return ()
+  in
+  ~view, ~handler
 ;;
 
 let command =
-  Command.async_or_error ~summary:{|Demo of bonsai_tui_scroller.|}
+  Command.async_or_error ~summary:{|Demo of bonsai_term_scroller.|}
   @@
   let%map_open.Command () = return () in
   fun () -> Bonsai_term.start app

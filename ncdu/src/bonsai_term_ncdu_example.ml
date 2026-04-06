@@ -14,13 +14,13 @@ module Classification = struct
   ;;
 
   let catppuccin_color = function
-    | Kingdom _ -> Some Bonsai_tui_catppuccin.Blue
+    | Kingdom _ -> Some Bonsai_term_catppuccin.Blue
     | Family _ -> Some Lavender
     | Species _ -> None
   ;;
 end
 
-include Bonsai_tui_ncdu.Make (Classification) (Int)
+include Bonsai_term_ncdu.Make (Classification) (Int)
 
 let species name count =
   let name = Classification.Species name in

@@ -2,8 +2,8 @@
 open! Core
 open! Bonsai_term
 open Bonsai.Let_syntax
-module Typo = Bonsai_tui_typography
-module Border_box = Bonsai_tui_border_box
+module Typo = Bonsai_term_typography
+module Border_box = Bonsai_term_border_box
 
 let text =
   let red = Attr.Color.rgb ~r:255 ~g:0 ~b:0 in

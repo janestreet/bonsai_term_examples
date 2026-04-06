@@ -2,7 +2,7 @@ open! Core
 open Async
 open Bonsai_term
 open Bonsai.Let_syntax
-module Tree_view = Bonsai_tui_tree_view
+module Tree_view = Bonsai_term_tree_view
 
 let grey = Attr.Color.rgb ~r:150 ~g:150 ~b:150
 
@@ -66,7 +66,7 @@ let command =
   let open Deferred.Or_error.Let_syntax in
   Command.async_or_error
     ~summary:
-      {|Demo of bonsai_tui_tree_view.  To use, pass a file containing newline separated paths.
+      {|Demo of bonsai_term_tree_view.  To use, pass a file containing newline separated paths.
 e.g. [./main.exe <(find ../ -type f)]
       |}
   @@

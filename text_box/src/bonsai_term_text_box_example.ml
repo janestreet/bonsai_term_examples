@@ -4,20 +4,20 @@ open Bonsai_term
 open Bonsai.Let_syntax
 
 let app ~dimensions (local_ graph) =
-  let flavor = Bonsai_tui_catppuccin.flavor graph in
+  let flavor = Bonsai_term_catppuccin.flavor graph in
   let%sub { view; handler; string = _; set = _ } =
     let text_attrs =
       let%arr flavor in
-      [ Attr.bg (Bonsai_tui_catppuccin.color ~flavor Crust)
-      ; Attr.fg (Bonsai_tui_catppuccin.color ~flavor Text)
+      [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Crust)
+      ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Text)
       ]
     and cursor_attrs =
       let%arr flavor in
-      [ Attr.bg (Bonsai_tui_catppuccin.color ~flavor Text)
-      ; Attr.fg (Bonsai_tui_catppuccin.color ~flavor Crust)
+      [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Text)
+      ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
       ]
     in
-    Bonsai_tui_textbox.component
+    Bonsai_term_textbox.component
       ~text_attrs
       ~cursor_attrs
       ~is_focused:(Bonsai.return true)
@@ -29,15 +29,15 @@ let app ~dimensions (local_ graph) =
     and terminal_dimensions = dimensions in
     let _ = terminal_dimensions in
     let spacer color =
-      View.text ~attrs:[ Attr.bg (Bonsai_tui_catppuccin.color ~flavor color) ] " "
+      View.text ~attrs:[ Attr.bg (Bonsai_term_catppuccin.color ~flavor color) ] " "
     in
     let textbox = View.hcat [ spacer Crust; view; spacer Crust ]
     and label =
       View.text
         ~attrs:
           [ Attr.bold
-          ; Attr.fg (Bonsai_tui_catppuccin.color ~flavor Green)
-          ; Attr.bg (Bonsai_tui_catppuccin.color ~flavor Surface0)
+          ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Green)
+          ; Attr.bg (Bonsai_term_catppuccin.color ~flavor Surface0)
           ]
         " Your name: "
     in
