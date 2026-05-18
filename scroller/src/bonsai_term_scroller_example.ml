@@ -31,8 +31,18 @@ let app ~dimensions (local_ graph) =
           in
           View.text line))
   in
-  let%sub { view; less_keybindings_handler; _ } =
-    Bonsai_term_scroller.component ~dimensions view graph
+  let%sub { view; less_keybindings_handler; scroll_position; _ } =
+    Bonsai_term_scroller.component ~crop_width_if_too_big:`No ~dimensions view graph
+  in
+  let view =
+    let%arr view and scroll_position and dimensions in
+    let scrollbar =
+      Bonsai_term_scroller.Scrollbar.Style.vertical_bar
+        ~scroll_position
+        ~height:dimensions.Dimensions.height
+        ()
+    in
+    View.hcat [ view; scrollbar ]
   in
   let handler =
     let%arr less_keybindings_handler in

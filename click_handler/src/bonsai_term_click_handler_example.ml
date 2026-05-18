@@ -43,6 +43,29 @@ let button ~label ~on_click (local_ graph) =
   add_click_handler button_view ~on_click
 ;;
 
+let right_click_button ~label ~on_right_click (local_ graph) =
+  let add_right_click_handler = Bonsai_term_click_handler.add_right_click_handler graph in
+  let%arr add_right_click_handler
+  and on_right_click
+  and text = text graph
+  and flavor = Bonsai_term_catppuccin.flavor graph in
+  let teal = Bonsai_term_catppuccin.color ~flavor Teal in
+  let button_view =
+    View.hcat
+      [ text ~attrs:[ Attr.bg teal ] " "
+      ; text
+          ~attrs:
+            [ Attr.bg teal
+            ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
+            ; Attr.bold
+            ]
+          label
+      ; text ~attrs:[ Attr.bg teal ] " "
+      ]
+  in
+  add_right_click_handler button_view ~on_right_click
+;;
+
 let counter_component (local_ graph) =
   let count, inject = Bonsai.state 0 graph in
   let increment_button =
@@ -85,12 +108,42 @@ let counter_component (local_ graph) =
     ]
 ;;
 
+let right_click_demo_component (local_ graph) =
+  let toggled, set_toggled = Bonsai.state false graph in
+  let toggle_button =
+    let on_right_click =
+      let%arr set_toggled and toggled in
+      set_toggled (not toggled)
+    in
+    right_click_button ~label:"Right-click me" ~on_right_click graph
+  in
+  let%arr toggled
+  and toggle_button
+  and text = text graph
+  and flavor = Bonsai_term_catppuccin.flavor graph in
+  let teal = Bonsai_term_catppuccin.color ~flavor Teal in
+  let subtext = Bonsai_term_catppuccin.color ~flavor Subtext0 in
+  let status = if toggled then "ON" else "OFF" in
+  View.vcat
+    [ text ~attrs:[ Attr.bold; Attr.fg teal ] "Right-Click Demo"
+    ; View.text ""
+    ; View.hcat [ text "Toggled: "; text ~attrs:[ Attr.bold ] status ]
+    ; View.text ""
+    ; toggle_button
+    ; View.text ""
+    ; text ~attrs:[ Attr.fg subtext ] "(Right-click the button with your mouse!)"
+    ]
+;;
+
 let app ~dimensions (local_ graph) =
   let counter_view = counter_component graph in
+  let right_click_view = right_click_demo_component graph in
   let view =
     let%arr backdrop = backdrop ~dimensions graph
-    and counter_view in
-    View.zcat [ View.pad ~l:2 ~t:1 counter_view; backdrop ]
+    and counter_view
+    and right_click_view in
+    let content = View.vcat [ counter_view; View.text ""; right_click_view ] in
+    View.zcat [ View.pad ~l:2 ~t:1 content; backdrop ]
   in
   let handler =
     Bonsai_term_click_handler.handler

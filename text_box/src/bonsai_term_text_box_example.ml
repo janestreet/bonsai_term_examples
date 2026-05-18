@@ -11,17 +11,8 @@ let app ~dimensions (local_ graph) =
       [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Crust)
       ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Text)
       ]
-    and cursor_attrs =
-      let%arr flavor in
-      [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Text)
-      ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
-      ]
     in
-    Bonsai_term_textbox.component
-      ~text_attrs
-      ~cursor_attrs
-      ~is_focused:(Bonsai.return true)
-      graph
+    Bonsai_term_textbox.component ~text_attrs ~is_focused:(Bonsai.return true) graph
   in
   let view =
     let%arr view

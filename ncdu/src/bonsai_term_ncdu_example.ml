@@ -94,8 +94,8 @@ let app ~dimensions (local_ graph) =
       ~dimensions
       ~app_title:"Tree of life"
       ~tree_name:"South America"
-      ~nodes
-      ~total_size
+      ~nodes:(Bonsai.return nodes)
+      ~total_size:(Bonsai.return total_size)
       graph
   in
   ~view, ~handler
