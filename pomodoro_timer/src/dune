@@ -3,4 +3,4 @@
  (public_name bonsai_term_examples.pomodoro_timer)
  (preprocess
   (pps bonsai.ppx_bonsai ppx_jane))
- (libraries async bonsai bonsai_term bonsai_term_components.catppuccin core))
+ (libraries async bonsai bonsai_term bonsai_term_components.color_scheme core))

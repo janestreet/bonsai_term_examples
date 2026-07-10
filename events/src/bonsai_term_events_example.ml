@@ -6,7 +6,9 @@ let green x =
   View.text
     ~attrs:
       [ Attr.fg
-          (Bonsai_term_catppuccin.color ~flavor:Bonsai_term_catppuccin.Mocha.flavor Green)
+          (Bonsai_term_color_scheme.color
+             ~flavor:Bonsai_term_color_scheme.Mocha.flavor
+             Green)
       ; Attr.bold
       ]
     x
@@ -64,8 +66,8 @@ let render_event : Event.t -> View.t =
           ~attrs:
             [ Attr.bold
             ; Attr.fg
-                (Bonsai_term_catppuccin.color
-                   ~flavor:Bonsai_term_catppuccin.Mocha.flavor
+                (Bonsai_term_color_scheme.color
+                   ~flavor:Bonsai_term_color_scheme.Mocha.flavor
                    Blue)
             ]
           (prefix ^ key)
@@ -77,8 +79,8 @@ let render_event : Event.t -> View.t =
           ~attrs:
             [ Attr.bold
             ; Attr.fg
-                (Bonsai_term_catppuccin.color
-                   ~flavor:Bonsai_term_catppuccin.Mocha.flavor
+                (Bonsai_term_color_scheme.color
+                   ~flavor:Bonsai_term_color_scheme.Mocha.flavor
                    Blue)
             ]
           (Sexp.to_string

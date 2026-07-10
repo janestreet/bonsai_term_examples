@@ -1,7 +1,7 @@
 open! Core
 open! Bonsai_term
 open Bonsai.Let_syntax
-module Catppuccin = Bonsai_term_catppuccin
+module Catppuccin = Bonsai_term_color_scheme
 
 let app ~(dimensions : Dimensions.t Bonsai.t) (local_ graph)
   : view:View.t Bonsai.t * handler:(Event.t -> unit Effect.t) Bonsai.t

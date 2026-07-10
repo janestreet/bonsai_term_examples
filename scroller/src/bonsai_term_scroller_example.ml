@@ -1,28 +1,23 @@
 open! Core
-open Async
 open Bonsai_term
 open Bonsai.Let_syntax
 
-let app ~dimensions (local_ graph) =
-  let mli =
-    [%embed_file_as_string "../../../bonsai_term/scroller/src/bonsai_term_scroller.mli"]
-  in
-  let text =
-    {%string|
 (** This is a demo of [bonsai_term_scroller], a library that allows you to create a
     "scrollable" region.
 
     You can scroll around this demo using less keybindings.
 
-    Here is the MLI for [bonsai_term_scroller.mli]:
-*)
+    You can run this on this file by running:
 
-%{mli}|}
-  in
+    {v
+./lib/bonsai_term_examples/scroller/bin/main.exe ./lib/bonsai_term_examples/scroller/src/bonsai_term_scroller_example.ml
+    v} *)
+
+let app ~contents ~dimensions (local_ graph) =
   let view =
     Bonsai.return
     @@ View.vcat
-    @@ (String.strip text
+    @@ (contents
         |> String.split_lines
         |> List.mapi ~f:(fun i line ->
           let line =
@@ -54,8 +49,12 @@ let app ~dimensions (local_ graph) =
 ;;
 
 let command =
+  let open Async in
   Command.async_or_error ~summary:{|Demo of bonsai_term_scroller.|}
   @@
-  let%map_open.Command () = return () in
-  fun () -> Bonsai_term.start app
+  let%map_open.Command () = return ()
+  and file = anon ("FILE" %: File_path.arg_type) in
+  fun () ->
+    let%bind contents = Filesystem_async.read_file file in
+    Bonsai_term.start (fun ~dimensions graph -> app ~contents ~dimensions graph)
 ;;

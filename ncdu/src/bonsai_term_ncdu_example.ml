@@ -14,7 +14,7 @@ module Classification = struct
   ;;
 
   let catppuccin_color = function
-    | Kingdom _ -> Some Bonsai_term_catppuccin.Blue
+    | Kingdom _ -> Some Bonsai_term_color_scheme.Blue
     | Family _ -> Some Lavender
     | Species _ -> None
   ;;
@@ -106,5 +106,5 @@ let command =
   Command.async_or_error
     ~summary:{|Bonsai_term ncdu demo!|}
     (let%map_open.Command () = return () in
-     fun () -> Bonsai_term.start ~target_frames_per_second:10 app)
+     fun () -> Bonsai_term.start ~target_frames_per_second:10.0 app)
 ;;

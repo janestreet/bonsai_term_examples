@@ -8,8 +8,8 @@ let app ~dimensions (local_ _graph) =
     let number_attr =
       Attr.many
         [ Attr.fg
-            (Bonsai_term_catppuccin.color
-               ~flavor:Bonsai_term_catppuccin.Mocha.flavor
+            (Bonsai_term_color_scheme.color
+               ~flavor:Bonsai_term_color_scheme.Mocha.flavor
                Blue)
         ; Attr.bold
         ]

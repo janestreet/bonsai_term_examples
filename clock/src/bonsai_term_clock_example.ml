@@ -9,8 +9,8 @@ let render_date (date : Date.t) =
     View.text
       ~attrs:
         [ Attr.fg
-            (Bonsai_term_catppuccin.color
-               ~flavor:Bonsai_term_catppuccin.Mocha.flavor
+            (Bonsai_term_color_scheme.color
+               ~flavor:Bonsai_term_color_scheme.Mocha.flavor
                Blue)
         ]
       (Int.to_string (f date))
@@ -26,7 +26,9 @@ let render_time_of_day (time_of_day : Time_ns.Ofday.t) =
     ~attrs:
       [ Attr.bold
       ; Attr.fg
-          (Bonsai_term_catppuccin.color ~flavor:Bonsai_term_catppuccin.Mocha.flavor Green)
+          (Bonsai_term_color_scheme.color
+             ~flavor:Bonsai_term_color_scheme.Mocha.flavor
+             Green)
       ]
     (Time_ns.Ofday.to_sec_string time_of_day)
 ;;

@@ -3,19 +3,19 @@ open Async
 open! Bonsai_term
 open Bonsai.Let_syntax
 
-let bg = Bonsai_term_catppuccin.Crust
+let bg = Bonsai_term_color_scheme.Crust
 
 let backdrop ~dimensions (local_ graph) =
   let%arr { Dimensions.height; width } = dimensions
-  and flavor = Bonsai_term_catppuccin.flavor graph in
-  let bg_color = Bonsai_term_catppuccin.color ~flavor bg in
+  and flavor = Bonsai_term_color_scheme.flavor graph in
+  let bg_color = Bonsai_term_color_scheme.color ~flavor bg in
   View.rectangle ~height ~width ~attrs:[ Attr.bg bg_color ] ()
 ;;
 
 let text (local_ graph) =
-  let%arr flavor = Bonsai_term_catppuccin.flavor graph in
-  let text_color = Bonsai_term_catppuccin.color ~flavor Text in
-  let crust = Bonsai_term_catppuccin.color ~flavor bg in
+  let%arr flavor = Bonsai_term_color_scheme.flavor graph in
+  let text_color = Bonsai_term_color_scheme.color ~flavor Text in
+  let crust = Bonsai_term_color_scheme.color ~flavor bg in
   fun ?(attrs = []) text ->
     View.text ~attrs:([ Attr.fg text_color; Attr.bg crust ] @ attrs) text
 ;;
@@ -25,15 +25,15 @@ let button ~label ~on_click (local_ graph) =
   let%arr add_click_handler
   and on_click
   and text = text graph
-  and flavor = Bonsai_term_catppuccin.flavor graph in
-  let mauve = Bonsai_term_catppuccin.color ~flavor Mauve in
+  and flavor = Bonsai_term_color_scheme.flavor graph in
+  let mauve = Bonsai_term_color_scheme.color ~flavor Mauve in
   let button_view =
     View.hcat
       [ text ~attrs:[ Attr.bg mauve ] " "
       ; text
           ~attrs:
             [ Attr.bg mauve
-            ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
+            ; Attr.fg (Bonsai_term_color_scheme.color ~flavor Crust)
             ; Attr.bold
             ]
           label
@@ -48,15 +48,15 @@ let right_click_button ~label ~on_right_click (local_ graph) =
   let%arr add_right_click_handler
   and on_right_click
   and text = text graph
-  and flavor = Bonsai_term_catppuccin.flavor graph in
-  let teal = Bonsai_term_catppuccin.color ~flavor Teal in
+  and flavor = Bonsai_term_color_scheme.flavor graph in
+  let teal = Bonsai_term_color_scheme.color ~flavor Teal in
   let button_view =
     View.hcat
       [ text ~attrs:[ Attr.bg teal ] " "
       ; text
           ~attrs:
             [ Attr.bg teal
-            ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
+            ; Attr.fg (Bonsai_term_color_scheme.color ~flavor Crust)
             ; Attr.bold
             ]
           label
@@ -94,9 +94,9 @@ let counter_component (local_ graph) =
   and decrement_button
   and reset_button
   and text = text graph
-  and flavor = Bonsai_term_catppuccin.flavor graph in
-  let green = Bonsai_term_catppuccin.color ~flavor Green in
-  let subtext = Bonsai_term_catppuccin.color ~flavor Subtext0 in
+  and flavor = Bonsai_term_color_scheme.flavor graph in
+  let green = Bonsai_term_color_scheme.color ~flavor Green in
+  let subtext = Bonsai_term_color_scheme.color ~flavor Subtext0 in
   View.vcat
     [ text ~attrs:[ Attr.bold; Attr.fg green ] "Click Handler Demo"
     ; View.text ""
@@ -120,9 +120,9 @@ let right_click_demo_component (local_ graph) =
   let%arr toggled
   and toggle_button
   and text = text graph
-  and flavor = Bonsai_term_catppuccin.flavor graph in
-  let teal = Bonsai_term_catppuccin.color ~flavor Teal in
-  let subtext = Bonsai_term_catppuccin.color ~flavor Subtext0 in
+  and flavor = Bonsai_term_color_scheme.flavor graph in
+  let teal = Bonsai_term_color_scheme.color ~flavor Teal in
+  let subtext = Bonsai_term_color_scheme.color ~flavor Subtext0 in
   let status = if toggled then "ON" else "OFF" in
   View.vcat
     [ text ~attrs:[ Attr.bold; Attr.fg teal ] "Right-Click Demo"

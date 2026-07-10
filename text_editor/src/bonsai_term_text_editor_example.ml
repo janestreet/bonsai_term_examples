@@ -3,13 +3,13 @@ open Bonsai_term
 open Bonsai.Let_syntax
 
 let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
-  let flavor = Bonsai_term_catppuccin.flavor graph in
+  let flavor = Bonsai_term_color_scheme.flavor graph in
   let%tydi { view; send_actions; text; cursor; set_text; rope = _; get_cursor_position } =
     let text_attrs =
       let%arr flavor in
       let text_attrs =
-        [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Crust)
-        ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Text)
+        [ Attr.bg (Bonsai_term_color_scheme.color ~flavor Crust)
+        ; Attr.fg (Bonsai_term_color_scheme.color ~flavor Text)
         ]
       in
       text_attrs
@@ -82,16 +82,16 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let%arr mode and flavor in
       let text, color =
         match mode with
-        | Some Normal -> " NORMAL ", Bonsai_term_catppuccin.Blue
-        | Some Insert -> " INSERT ", Bonsai_term_catppuccin.Green
-        | None -> "", Bonsai_term_catppuccin.Mauve
+        | Some Normal -> " NORMAL ", Bonsai_term_color_scheme.Blue
+        | Some Insert -> " INSERT ", Bonsai_term_color_scheme.Green
+        | None -> "", Bonsai_term_color_scheme.Mauve
       in
       let view =
         View.text
           ~attrs:
             [ Attr.bold
-            ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
-            ; Attr.bg (Bonsai_term_catppuccin.color ~flavor color)
+            ; Attr.fg (Bonsai_term_color_scheme.color ~flavor Crust)
+            ; Attr.bg (Bonsai_term_color_scheme.color ~flavor color)
             ]
           text
       in
@@ -110,16 +110,16 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let visual_cursor =
         View.text
           ~attrs:
-            [ Attr.fg (Bonsai_term_catppuccin.color ~flavor color)
-            ; Attr.bg (Bonsai_term_catppuccin.color ~flavor Surface0)
+            [ Attr.fg (Bonsai_term_color_scheme.color ~flavor color)
+            ; Attr.bg (Bonsai_term_color_scheme.color ~flavor Surface0)
             ]
           [%string " %{visual_line#Int}:%{visual_column#Int} "]
       in
       let cursor =
         View.text
           ~attrs:
-            [ Attr.fg (Bonsai_term_catppuccin.color ~flavor Crust)
-            ; Attr.bg (Bonsai_term_catppuccin.color ~flavor color)
+            [ Attr.fg (Bonsai_term_color_scheme.color ~flavor Crust)
+            ; Attr.bg (Bonsai_term_color_scheme.color ~flavor color)
             ]
           [%string " %{logical_line#Int}:%{logical_column#Int} "]
       in
@@ -136,14 +136,14 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
             [ View.text
                 ~attrs:
                   [ Attr.bold
-                  ; Attr.bg (Bonsai_term_catppuccin.color ~flavor Surface0)
-                  ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Yellow)
+                  ; Attr.bg (Bonsai_term_color_scheme.color ~flavor Surface0)
+                  ; Attr.fg (Bonsai_term_color_scheme.color ~flavor Yellow)
                   ]
                 name
             ; View.text
                 ~attrs:
-                  [ Attr.bg (Bonsai_term_catppuccin.color ~flavor Base)
-                  ; Attr.fg (Bonsai_term_catppuccin.color ~flavor Overlay2)
+                  [ Attr.bg (Bonsai_term_color_scheme.color ~flavor Base)
+                  ; Attr.fg (Bonsai_term_color_scheme.color ~flavor Overlay2)
                   ]
                 " click to toggle "
             ]
@@ -154,7 +154,7 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
       let middle_padding = Int.max 0 (width - View.width left - View.width right) in
       let middle =
         View.rectangle
-          ~attrs:[ Attr.bg (Bonsai_term_catppuccin.color ~flavor Mantle) ]
+          ~attrs:[ Attr.bg (Bonsai_term_color_scheme.color ~flavor Mantle) ]
           ~width:middle_padding
           ~height:1
           ()
@@ -170,7 +170,7 @@ let app ?(initial_keybindings = `Standard) ~dimensions (local_ graph) =
     and flavor in
     let backdrop =
       View.rectangle
-        ~attrs:[ Attr.bg (Bonsai_term_catppuccin.color ~flavor Crust) ]
+        ~attrs:[ Attr.bg (Bonsai_term_color_scheme.color ~flavor Crust) ]
         ~width
         ~height
         ()
